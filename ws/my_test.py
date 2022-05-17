@@ -4,11 +4,6 @@ import re
 response = requests.get('https://programmershouse.ir/')
 home_page_url = response.url
 
-# print(response.__attrs__)
-
-# for item in response.__attrs__:
-#    print(item)
-
 source_string = str(response.content)
 source_lines = source_string.split('\\n')
 
