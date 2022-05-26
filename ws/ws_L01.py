@@ -6,7 +6,7 @@ def get_1():
     response = requests.get(url)
     print(response)
 
-#-------------------<<>>--------------------
+#----------
 
 def get_2():
     url = "https://xkcd.com/353"
@@ -14,7 +14,7 @@ def get_2():
     response = requests.get(url)
     print(dir(response))
 
-#-------------------<<>>--------------------
+#----------
 
 def get_2_1():
     list = ["C#","JAVA","Swift","C++","C"]
@@ -22,6 +22,7 @@ def get_2_1():
     print(dir(list))
     print(dir(dic))
 
+#----------
 
 def get_2_2():
     class Order:
@@ -33,7 +34,7 @@ def get_2_2():
 
     print(dir(myShoppingCard))
 
-#-------------------<<>>--------------------
+# ----------
 
 def get_2_3():
     class Person:
@@ -43,7 +44,8 @@ def get_2_3():
 
     print(dir(Person))
 
-#-------------------<<>>--------------------
+
+# ----------
 
 def get_2_4():
     class MyClass:
@@ -62,7 +64,7 @@ def get_2_4():
     print(obj)
     print(str(obj))
 
-#-------------------<<>>--------------------
+# ----------
 
 def get_3():
     url = "https://xkcd.com/353"
@@ -70,15 +72,16 @@ def get_3():
     r = requests.get(url)
     print(help(r))
 
-#-------------------<<>>--------------------
+# ----------
 
 def get_4():
-    url = "https://xkcd.com/353"
+    # url = "https://xkcd.com/353"
+    url = "https://golrang.com/"
 
     response = requests.get(url)
     print(response.text)
 
-#-------------------<<>>--------------------
+# ----------
 
 def get_5():
     url = "https://xkcd.com/comics/python.png"
@@ -87,7 +90,7 @@ def get_5():
     print(response.content)
 
 
-#-------------------<<>>--------------------
+# ----------
 
 def get_6():
     url = "https://xkcd.com/comics/python.png"
@@ -97,18 +100,97 @@ def get_6():
         fp.write(response.content)
 
 
-#-------------------<<>>--------------------
+# ----------
 
 def get_7():
-    url = "https://i.pinimg.com/564x/fa/23/e9/fa23e9eea8d63d12d42383563f2b3942.jpg"
+    url = "https://www.python.org"
 
     response = requests.get(url)
-    with open('./Images/pintrestTest.jpg','wb') as fp:
-        fp.write(response.content)
+    print(response.request.headers)
 
 
+def get_8():
+    url = "https://www.python.org"
 
-#-------------------<<Main Method>>--------------------
+    response = requests.get(url)
+    print(response.headers)
+    print(response.text)
 
-response = requests.get('https://programmershouse.ir/')
-help(response)
+def get_9():
+    url = "https://www.crawler-test.com"
+
+    response = requests.get(url)
+    print(response.status_code)
+
+
+def get_10():
+    url = "https://www.webfx.com/web-development/glossary/http-status-codes/"
+
+    response = requests.get(url)
+    print(response.status_code)
+
+
+def get_11():
+    url = "https://www.python.org"
+
+    response = requests.get(url)
+    print(response.reason)
+
+
+def get_12():
+    dict = {"page":2,"count":20}
+    url = "http://httpbin.org/get"
+
+    response = requests.get(url,params=dict)
+    print(response.url)
+    print("========================================")
+    print(response.text)
+
+
+def get_13():
+    dict = {"username":"admin","password":"pass1234"}
+    url = "http://httpbin.org/post"
+
+    response = requests.post(url,data=dict)
+    print(response.url)
+    print("========================================")
+    print(response.text)
+
+
+def get_14():
+    dict = {"username":"admin","password":"pass1234"}
+    url = "http://httpbin.org/post"
+
+    response = requests.post(url,data=dict)
+    print(response.url)
+
+    jsonFile = response.json()
+    print("====================json====================")
+    print(jsonFile)
+    print("====================form====================")
+    print(jsonFile["form"])
+    print("===================headers=====================")
+    print(jsonFile["headers"])
+
+
+def get_15():
+    url = "http://httpbin.org/delay/1"
+
+    response = requests.get(url,timeout=60)
+    print(response.text)
+    print(response)
+
+
+import time
+def get_16():
+    url = "http://httpbin.org/delay/1"
+    time.sleep(10)
+    response = requests.get(url)
+    print(response.text)
+    print(response)
+
+
+#--------------------------<<Main Method>>---------------------------------
+
+get_15()
+
