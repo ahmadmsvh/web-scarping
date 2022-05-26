@@ -2,9 +2,6 @@ import requests
 from bs4 import BeautifulSoup
 import pandas as pd
 
-import html5lib.treeadapters.sax
-import lxml
-
 url = 'https://www.daneshjooyar.com/'
 
 response = requests.get(url)
@@ -45,15 +42,12 @@ for cat in categories:
 
       for a_tag in courses:
          title = a_tag.select('h2')[0].text
-         result.append([title, cat[0], '', '', a_tag['href']])
+         result.append(['=HYPERLINK("{}","{}")'.format(a_tag['href'],title), cat[0], '', ''])
          i += 1
 
    band_dataFrame = pd.DataFrame(result,
-                                 columns=['عنوان', 'دسته یک', 'دسته دو', 'دسته سه', 'لینک'],
+                                 columns=['عنوان', 'دسته یک', 'دسته دو', 'دسته سه'],
                                  index=range(1, len(result) + 1)
                                  )
    # band_dataFrame.to_csv('DJY.csv')
-   band_dataFrame.to_excel('DJY.xlsx', engine='xlsxwriter')
-
-
-
+   band_dataFrame.to_excel('./excel/DJY.xlsx', engine='xlsxwriter')

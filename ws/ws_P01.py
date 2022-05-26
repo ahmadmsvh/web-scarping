@@ -64,5 +64,5 @@ band_dataFrame = pd.DataFrame(band,
                               columns = ['group_1','group_2','group_3','sum_1','sum_2','sum_3','max_diff'],
                               index = range(1,len(band)+1)
                               )
-band_dataFrame.to_csv('csv_out.csv')
-band_dataFrame.to_excel('xlsx_out.xlsx', engine='xlsxwriter')
+band_dataFrame.to_csv('./excel/csv_out.csv')
+band_dataFrame.to_excel('./excel/xlsx_out.xlsx', engine='xlsxwriter')
