@@ -1,13 +1,10 @@
-import pandas as pd
 import requests
-import html5lib
-from bs4 import  BeautifulSoup
+from bs4 import BeautifulSoup
+import pandas as pd
 
-url = 'https://www.varzesh3.com/'
+resp = requests.get("https://www.varzesh3.com/")
 
-response = requests.get(url)
-
-bs = BeautifulSoup(response.text, 'html5lib')
+bs = BeautifulSoup(resp.text, 'html5lib')
 
 standing_table_list = []
 
@@ -21,6 +18,3 @@ league_table = pd.DataFrame(standing_table_list,
                             index=None
                             )
 league_table.to_excel('./excel/league_table.xlsx', engine='xlsxwriter')
-
-
-

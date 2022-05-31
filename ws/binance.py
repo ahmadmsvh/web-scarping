@@ -1,28 +1,24 @@
-
 import requests
 import html5lib
 from bs4 import BeautifulSoup
+import time
 import pandas as pd
 
-url = 'https://www.binance.com/'
+url ='https://www.binance.com/en/news'
+hrefs = []
 
-# response = requests.get(url)
-response = '<div class="css-1q4wrpt"><div class="css-k5e9j4"><a data-bn-type="link" href="/en/support/announcement/f5dc72c8219746a09fa527fb134719db" class="css-1ey6mep"><div data-bn-type="text" class="css-f94ykk">Binance Concludes 3 Promos: Learn &amp; Trade GAL, Register &amp; Share GAL, and JASMY Futures Trading Tournament<h6 data-bn-type="text" class="css-eoufru">2022-05-27</h6></div></a></div><div class="css-k5e9j4"><a data-bn-type="link" href="/en/support/announcement/2f5cb9b16a774873bc5c2e0b0c6983de" class="css-1ey6mep"><div data-bn-type="text" class="css-f94ykk">Binance NFT Marketplace Launches “Rh!noX by BinaryX” NFT Collection via the Subscription Mechanism<h6 data-bn-type="text" class="css-eoufru">2022-05-27</h6></div></a></div><div class="css-k5e9j4"><a data-bn-type="link" href="/en/support/announcement/1a2d07be973445d7b08c35f43b3d50a4" class="css-1ey6mep"><div data-bn-type="text" class="css-f94ykk">Binance P2P Adds Support for Papua New Guinean Kina (PGK)<h6 data-bn-type="text" class="css-eoufru">2022-05-27</h6></div></a></div><div class="css-k5e9j4"><a data-bn-type="link" href="/en/support/announcement/c52fa3c686be4b2b9d5df50de15847ec" class="css-1ey6mep"><div data-bn-type="text" class="css-f94ykk">Binance Will Support the Terra Network Airdrop<h6 data-bn-type="text" class="css-eoufru">2022-05-26</h6></div></a></div><div class="css-k5e9j4"><a data-bn-type="link" href="/en/support/announcement/185001cde1614f0e8987c4d39aca8639" class="css-1ey6mep"><div data-bn-type="text" class="css-f94ykk">Delisting of AKRO USDT-Margined Contract Postponed<h6 data-bn-type="text" class="css-eoufru">2022-05-26</h6></div></a></div><div class="css-k5e9j4"><a data-bn-type="link" href="/en/support/announcement/47f234727fd44258aae815374c8064b9" class="css-1ey6mep"><div data-bn-type="text" class="css-f94ykk">Binance Loans Adds ADA &amp; AVAX as Staking Collateral Assets<h6 data-bn-type="text" class="css-eoufru">2022-05-25</h6></div></a></div><div class="css-k5e9j4"><a data-bn-type="link" href="/en/support/announcement/81d25c2d106c4c2893d1deabc4665e7b" class="css-1ey6mep"><div data-bn-type="text" class="css-f94ykk">Binance Gift Card Launches Redeem and Convert to Fiat Function on Gift Card Mini App<h6 data-bn-type="text" class="css-eoufru">2022-05-25</h6></div></a></div><div class="css-k5e9j4"><a data-bn-type="link" href="/en/support/announcement/dab7b6c88f724dfda7cc7a24ca222728" class="css-1ey6mep"><div data-bn-type="text" class="css-f94ykk">Binance Coin-Margined Futures Trading System Upgrade Notice (2022-05-24)<h6 data-bn-type="text" class="css-eoufru">2022-05-24</h6></div></a></div><div class="css-k5e9j4"><a data-bn-type="link" href="/en/support/announcement/9cb3bef772894710ab3f43c9d84ec01f" class="css-1ey6mep"><div data-bn-type="text" class="css-f94ykk">Existing Deposit Addresses &amp; Memo on Cosmos Network (ATOM) to Be Retired<h6 data-bn-type="text" class="css-eoufru">2022-05-24</h6></div></a></div><div class="css-k5e9j4"><a data-bn-type="link" href="/en/support/announcement/bab533fdba1e4b2ba21053a7668c2865" class="css-1ey6mep"><div data-bn-type="text" class="css-f94ykk">Binance Has Completed the Ellipsis (EPS) Token Migration, Redenomination and Ticker Change to EPX<h6 data-bn-type="text" class="css-eoufru">2022-05-24</h6></div></a></div><div class="css-k5e9j4"><a data-bn-type="link" href="/en/support/announcement/304c58edaa7c4f3eb31461796341d00e" class="css-1ey6mep"><div data-bn-type="text" class="css-f94ykk">Binance P2P Supports New Payment Method for Nepalese Rupee (NPR)<h6 data-bn-type="text" class="css-eoufru">2022-05-24</h6></div></a></div><div class="css-k5e9j4"><a data-bn-type="link" href="/en/support/announcement/341fbff19eb1401d86d2197371357bd5" class="css-1ey6mep"><div data-bn-type="text" class="css-f94ykk">Sell-Crypto-for-Fiat Feature Enabled for All Cryptos: Directly Sell Crypto with Your Credit/Debit Card!<h6 data-bn-type="text" class="css-eoufru">2022-05-23</h6></div></a></div><div class="css-k5e9j4"><a data-bn-type="link" href="/en/support/announcement/365e66f68f9b42148cb3fa70ef6acbed" class="css-1ey6mep"><div data-bn-type="text" class="css-f94ykk">Notice of Temporary Suspension of UGX Deposits &amp; Withdrawals<h6 data-bn-type="text" class="css-eoufru">2022-05-23</h6></div></a></div><div class="css-k5e9j4"><a data-bn-type="link" href="/en/support/announcement/349d721672994d758a52e8ceb367bfeb" class="css-1ey6mep"><div data-bn-type="text" class="css-f94ykk">Binance Convert Adds DF, STEEM, EPX and WBTC, With 116 New Trading Pairs Supported<h6 data-bn-type="text" class="css-eoufru">2022-05-23</h6></div></a></div><div class="css-k5e9j4"><a data-bn-type="link" href="/en/support/announcement/5d2362ebff2b44d180a462aa49e07743" class="css-1ey6mep"><div data-bn-type="text" class="css-f94ykk">Binance P2P: Get 50% Off Maker Fees in Southeast Asia<h6 data-bn-type="text" class="css-eoufru">2022-05-23</h6></div></a></div><div class="css-k5e9j4"><a data-bn-type="link" href="/en/support/announcement/20cf3637a4d84da087055bd90268f33a" class="css-1ey6mep"><div data-bn-type="text" class="css-f94ykk">Updates on Tick Size for Spot Trading Pairs (2022-05-30)<h6 data-bn-type="text" class="css-eoufru">2022-05-23</h6></div></a></div><div class="css-k5e9j4"><a data-bn-type="link" href="/en/support/announcement/e436ab9dc19345ed834a567aa0523c6e" class="css-1ey6mep"><div data-bn-type="text" class="css-f94ykk">Binance Concludes 2 Promos: Learn &amp; Trade ERN, and Learn &amp; Trade BNX<h6 data-bn-type="text" class="css-eoufru">2022-05-20</h6></div></a></div><div class="css-k5e9j4"><a data-bn-type="link" href="/en/support/announcement/55194cd1f0734aacb1514d01446906db" class="css-1ey6mep"><div data-bn-type="text" class="css-f94ykk">Binance Staking Launches SANTOS, PORTO, ALPINE &amp; LAZIO Staking with up to 169.95% APY<h6 data-bn-type="text" class="css-eoufru">2022-05-20</h6></div></a></div><div class="css-k5e9j4"><a data-bn-type="link" href="/en/support/announcement/3ee5a24e46754c278eaf769fcd4b7edf" class="css-1ey6mep"><div data-bn-type="text" class="css-f94ykk">Binance Completes Optimism Network Integration and Opens Layer 2 ETH Deposits<h6 data-bn-type="text" class="css-eoufru">2022-05-20</h6></div></a></div><div class="css-k5e9j4"><a data-bn-type="link" href="/en/support/announcement/efccea29b20a41c0b12e6ab6adca1260" class="css-1ey6mep"><div data-bn-type="text" class="css-f94ykk">Binance Liquid Swap Adds HARD, IDEX and SC, Opens Five Liquidity Pools<h6 data-bn-type="text" class="css-eoufru">2022-05-20</h6></div></a></div></div>'
+def read_last_news(old_news):
+   resp = requests.get(url, 'html5lib')
 
-bs = BeautifulSoup(response, 'html5lib')
-href = bs.select('a')
-title = bs.select('div.css-f94ykk')
+   bs = BeautifulSoup(resp.text, 'html5lib')
+   news_href = bs.select('div.css-1i9bvdl')[0].select('a')[0]['href']
+   if news_href != old_news:
+      old_news = news_href
+      hrefs.append(old_news)
+   return old_news
 
-news = []
-for i in range(len(href)):
-   news.append('=HYPERLINK("{}","{}")'.format(url+href[i]['href'], title[i].text))
-
-news_df = pd.DataFrame(news,
-                       columns=['news'],
-                       index=range(1,len(href)+1)
-                       )
-
-print(news)
-news_df.to_excel('./excel/binance.xlsx', engine='xlsxwriter')
-
-
+last_news = ''
+while 1:
+   last_news = read_last_news(last_news)
+   print(hrefs)
+   time.sleep(3)
