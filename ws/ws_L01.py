@@ -44,7 +44,6 @@ def get_2_3():
 
     print(dir(Person))
 
-
 # ----------
 
 def get_2_4():
@@ -188,7 +187,6 @@ def get_16():
     response = requests.get(url)
     print(response.text)
     print(response)
-
 
 #--------------------------<<Main Method>>---------------------------------
 
