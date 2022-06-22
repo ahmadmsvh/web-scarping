@@ -1,5 +1,4 @@
 import requests
-import pickle
 
 page = 1
 items = 1
@@ -32,7 +31,9 @@ while page <= 5:
    #
    #    with open('./digikala/{}.jpg'.format(title.replace('/', '-').replace(' ', '-')), 'wb') as fp:
    #          fp.write(image.content)
-
+   body = '<body style="background-color:aliceblue; display:flex; flex-flow:wrap; justify-content: center;">'
+   with open('./digikala/index.html', 'a') as fp:
+      fp.write(body)
    for item in items:
       counter += 1
       title = item['title_en']
@@ -44,14 +45,18 @@ while page <= 5:
 
       products.append([title,prod_url, img_url])
       image ='''
-      <div>
+      <div style="display:inline-block; padding:20px; background-color:white; margin:10px;">
          <a href="{}">
             <img src="{}">
          </a>
-         <div style="position:relative">
-            <a style="position:absolute; top:-200px; left:400px" href="{}" >{}</a>
+         <div style="position:relative; width:400px">
+            <a style="position:absolute; top:-200px; left:250px" href="{}" >{}</a>
          </div>
       </div>'''.format(prod_url,img_url[0],prod_url,title)
 
-      with open('./digikala/index.html', 'ab') as fp:
-            pickle.dump(image, fp)
+      with open('./digikala/index.html', 'a') as fp:
+            fp.write(image)
+
+   body = '</body>'
+   with open('./digikala/index.html', 'a') as fp:
+      fp.write(body)
