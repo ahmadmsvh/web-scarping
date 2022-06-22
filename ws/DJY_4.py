@@ -2,6 +2,7 @@ import requests
 from bs4 import BeautifulSoup
 import pandas as pd
 
+
 url = 'https://www.daneshjooyar.com/'
 
 response = requests.get(url)

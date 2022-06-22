@@ -13,9 +13,8 @@ bs = BeautifulSoup(categories_tag, 'html5lib')
 
 categories = bs.select('ul.nav-category-sub')
 
-categories_set = set({})
 urls = []
-i = 0
+
 for ul in categories:
    ul_a = ul.findAll('a')
    for a_tag in ul_a:
@@ -54,11 +53,9 @@ for url in urls:
       for a_tag in courses:
          title = a_tag.select('h2')[0].text
          result.append(['=HYPERLINK("{}","{}")'.format(a_tag['href'], title), cat_1, cat_2])
-         i += 1
 
          if [cat_1,cat_2] not in categories_list:
             categories_list.append([cat_1,cat_2])
-
 
 titles = pd.DataFrame(result,
                       columns=['عنوان', 'دسته یک', 'دسته دو'],
