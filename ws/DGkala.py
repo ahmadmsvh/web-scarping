@@ -20,6 +20,44 @@ while page <= 5:
 
    items = response['data']['products']
 
+   body = '<body style="background-color:steelblue; display:flex; flex-flow:wrap; justify-content: center;">'
+   with open('./digikala/index.html', 'w') as fp:
+      fp.write(body)
+   for item in items:
+      counter += 1
+      title = item['title_en']
+      print(title)
+      title = '{}-'.format(str(counter)) + item['title_en']
+      prod_url = 'https://www.digikala.com'+ item['url']['uri']
+      print(prod_url)
+      img_url = item['images']['main']['url']
+      try:
+         price = item['default_variant']['price']['selling_price']
+      except:
+         price = None
+      title = title + f'<br>price : {price}'
+      products.append([title,prod_url, img_url])
+      image ='''
+      <div style="display:flex; padding:20px; background-color:white; margin:20px; border-radius:20px;">
+         <a href="{}">
+            <img src="{}">
+         </a>
+         <div style="display:flex; width:150px; margin-right: 20px">
+            <a style="color:black; display:flex; text-decoration: none;" href="{}" >
+               <h3 style="display:flex; align-items:center">{}</h3>
+            </a>
+         </div>
+      </div>'''.format(prod_url,img_url[0],prod_url,title)
+
+      with open('./digikala/index.html', 'a') as fp:
+            fp.write(image)
+
+   body = '</body>'
+   with open('./digikala/index.html', 'a') as fp:
+      fp.write(body)
+
+
+
    # for item in items:
    #    counter += 1
    #    title = item['title_en']
@@ -31,32 +69,3 @@ while page <= 5:
    #
    #    with open('./digikala/{}.jpg'.format(title.replace('/', '-').replace(' ', '-')), 'wb') as fp:
    #          fp.write(image.content)
-   body = '<body style="background-color:aliceblue; display:flex; flex-flow:wrap; justify-content: center;">'
-   with open('./digikala/index.html', 'a') as fp:
-      fp.write(body)
-   for item in items:
-      counter += 1
-      title = item['title_en']
-      print(title)
-      title = '{}-'.format(str(counter)) + item['title_en']
-      prod_url = 'https://www.digikala.com'+ item['url']['uri']
-      print(prod_url)
-      img_url = item['images']['main']['url']
-
-      products.append([title,prod_url, img_url])
-      image ='''
-      <div style="display:inline-block; padding:20px; background-color:white; margin:10px;">
-         <a href="{}">
-            <img src="{}">
-         </a>
-         <div style="position:relative; width:400px">
-            <a style="position:absolute; top:-200px; left:250px" href="{}" >{}</a>
-         </div>
-      </div>'''.format(prod_url,img_url[0],prod_url,title)
-
-      with open('./digikala/index.html', 'a') as fp:
-            fp.write(image)
-
-   body = '</body>'
-   with open('./digikala/index.html', 'a') as fp:
-      fp.write(body)

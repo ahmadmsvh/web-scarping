@@ -2,6 +2,9 @@ import requests
 from bs4 import BeautifulSoup
 import html5lib.treeadapters.sax
 import lxml
+import schedule
+from datetime import date
+import time
 
 
 def get_1():
@@ -50,6 +53,7 @@ def get_4():
 
 
 #----------
+
 
 def get_5():
     url = "https://www.whitehouse.gov/briefing-room/"
@@ -320,17 +324,81 @@ def get_20():
 
 #----------
 
+another_index = 0
+def get_21():
 
-# دریافت لیست
-# https://www.udemy.com/course
+    # =============================Counter and Log===============================
+    def counter():
+        date_log = date.today()
+        time_log = time.strftime("%H:%M:%S")
+        index = 0
+        with open('./files/log_index.txt', 'r') as f:
+            last_data = f.readlines()
+            if len(last_data) != 0:
+                if '-' in last_data[-1]:
+                    index = last_data[-1].split('-')[0]
+                else:
+                    index = last_data[-1]
 
-#   خواندن کامل لیست لیگ برتر ایران و جدول لیگ های ایران
-# https://www.varzesh3.com/
+        print(f'{index}- second')
+        index = int(index) + 1
 
+        log_msg = '\n'+str(index)+' - '+ str(date_log) +","+str(time_log)
+        with open('./files/log_index.txt', 'a') as f:
+            f.write(log_msg)
+
+    # =============================Counter with global variable===============================
+    def another_counter():
+        global another_index
+        print(f'{another_index}- another second')
+        another_index = another_index + 1
+
+    def say_hello():
+        print('1- hello programmers house student')
+
+    def goodluck():
+        print('2- goodluck programmers house student')
+
+    def do_work():
+        print('3- do work programmers house student')
+
+    def goodNight():
+        print('4- good Night programmers house student')
+
+    def go_work():
+        print('5- go work programmers house student')
+
+    def say_msg(msg):
+        print(f'6- {msg} programmers house student')
+
+    #=============get_21 Main=============================
+
+    schedule.every().second.do(counter)
+
+    schedule.every().second.do(another_counter)
+
+    schedule.every(5).seconds.do(say_msg,msg = 'Ali')
+
+    schedule.every(1).minutes.do(say_hello)
+
+    schedule.every().hour.do(goodluck)
+
+    schedule.every().day.at('00:00').do(goodNight)
+
+    schedule.every(5).to(10).minutes.do(do_work)
+
+    schedule.every().monday.do(go_work)
+
+    schedule.every().tuesday.at('18:00').do(say_hello)
+
+    # ****
+    while True:
+        schedule.run_pending()
+        time.sleep(1)
 
 
 #--------------------------<<Main Method>>---------------------------------
 
-get_19()
+get_21()
 
 
