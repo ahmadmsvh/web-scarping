@@ -6,5 +6,5 @@ url = 'https://www.alibaba.com/Vehicles-Transportation_p201275273?spm=a2700.8293
 response = requests.get(url)
 bs = BeautifulSoup(response.text,'html.parser')
 
-recomended = bs.select('#mod_5_10682004')
+recomended = bs.select('div[data-spm-max-idx]')
 print(recomended)
