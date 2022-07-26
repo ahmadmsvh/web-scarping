@@ -41,3 +41,4 @@ schedule.every(5).seconds.do(readTitle)
 while True:
    schedule.run_pending()
    time.sleep(5)
+   print('\n')
