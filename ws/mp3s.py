@@ -7,7 +7,9 @@ response = requests.get(url, 'lxml')
 res = response.text
 
 regex = re.compile('HREF=".*?(.+?)\.mp3')
+# regex = re.compile('(HREF=").*?(\.mp3)')
 a_tags = regex.findall(res)
+
 
 mp3s = []
 domain = "http://purehumbug.com"
