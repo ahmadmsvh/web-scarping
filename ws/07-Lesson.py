@@ -1,3 +1,7 @@
+# Upgrade pip
+# python.exe -m pip install --upgrade pip
+
+#  pip3 install selenium
 
 #  pip3 install webdriver-manager
 import time
@@ -6,6 +10,7 @@ path = 'C:\\Users\\ASUS\\PycharmProjects\\WebScraping\\Drivers\\chromedriver.exe
 
 def func01():
     from selenium import webdriver
+
     # driver = webdriver.Chrome(path)
     driver = webdriver.Chrome()
 
@@ -195,7 +200,6 @@ def func09():
 
     driver.close()
 
-# To be continued
 def func10():
     from selenium import webdriver
     from selenium.webdriver.chrome.service import Service
@@ -212,16 +216,12 @@ def func10():
     driver.get('https://www.google.com/')
 
     input_search = driver.find_element(By.NAME,'q')
-    input_search.send_keys('python')
+    input_search.send_keys('python'+Keys.ENTER)
 
-    time.sleep(5)
-
-    btn_search = driver.find_element(By.CSS_SELECTOR,'body > div.L3eUgb > div.o3j99.ikrT4e.om7nvf > form > div:nth-child(1) > div.A8SBwf.emcav > div.UUbT9 > div.aajZCb > div.CqAVzb.lJ9FBc > center > input.gNO89b')
-    btn_search.click()
 
     time.sleep(5)
 
     driver.close()
 # -------------------------------Main-----------------------------
 
-func09()
+func10()
