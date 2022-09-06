@@ -222,12 +222,8 @@ def get_17():
     print(response.text)
     print(response)
 
-# ----------
 
-# دریافت href خبرها و ذخیره سازی
-# https://www.binance.com/en/support/announcement/c-49?avId=49
-
-#--------------------------<<Main Method>>---------------------------------
-
+if __name__ == '__main__':
+    get_2()
 
 

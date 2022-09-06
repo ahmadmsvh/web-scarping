@@ -15,6 +15,14 @@ def readTitle():
 
    title = jsn['data']['catalogs'][1]['articles'][0]['title']
 
+   date = jsn['data']['catalogs'][1]['articles'][0]['releaseDate']
+
+   from datetime import datetime
+
+   date = datetime.fromtimestamp(date/1000)
+   date = str(date)[:19]
+   # print(date)
+
    try:
       with open('./binance/binance_title.bin', 'rb') as fp:
          title_old_1 = ''
@@ -31,7 +39,9 @@ def readTitle():
 
    try:
       with open('./binance/binance_title.bin', 'ab') as fp:
+         title += (" - "+date)
          if title != title_old_1:
+
             pickle.dump(title, fp)
    except Exception as e:
       print(e)

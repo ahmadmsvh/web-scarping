@@ -35,3 +35,5 @@ def func02():
     writer.save()
 
 
+if __name__ == '__main__':
+    pass

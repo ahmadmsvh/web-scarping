@@ -165,6 +165,6 @@ def func09():
     writer.save()
 
 
-# ------------------main---------------------
+if __name__ == '__main__':
 
-func09()
+    func09()
