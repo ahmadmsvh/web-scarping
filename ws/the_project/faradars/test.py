@@ -1,7 +1,6 @@
 import threading
 import requests
 from bs4 import BeautifulSoup
-from unidecode import unidecode
 import pandas as pd
 import os
 
@@ -78,7 +77,7 @@ class Website:
             css = {
                 'Teacher': '[name="instructors "] h6',
                 'Duration': 'div#durationTitle',
-                'Price' : 'div.side.border.rounded.bg-white .col-6 span',
+                'Price' : 'div.side.border.rounded.bg-white .col-6',
                 'Price-dis': 'div.row.d-flex.justify-content-start ',
                 'Discount': None,
                 'Students': 'div#soldCount',
@@ -87,8 +86,7 @@ class Website:
                 'Description': 'section#course-navigation-summary div div div p',
                 'Video Quantity': 'section.mt-5.pt-3.pb-3.pr-3 div strong',
                 'Img Url': '[poster^="https"]',
-                'Img Url two': 'div#course-cover-image img',
-                'Demo Url': 'video source',
+                'Demo Url': 'video *',
                 'Language': 'table.shop_attributes tbody tr',
                 'Size': 'table.shop_attributes tbody tr',
                 'Subtitle': None,
@@ -100,30 +98,20 @@ class Website:
             self.site_dict[catg]['courses'][course_title]['Teacher'] = self.__tryExcept(
                 query=lambda: bs.select_one(css['Teacher']).text)
 
-            duration = self.site_dict[catg]['courses'][course_title]['Duration'] = self.__tryExcept(
-                query=lambda: unidecode(bs.select_one(css['Duration']).text.strip()).replace(' s`t w ',':').replace('dqyqh',''))
-            print(self.site_dict[catg]['courses'][course_title]['Duration'])
+            self.site_dict[catg]['courses'][course_title]['Duration'] = self.__tryExcept(
+                query=lambda: bs.select_one(css['Duration']).text.strip())
 
             self.site_dict[catg]['courses'][course_title]['Students'] = self.__tryExcept(
                 query=lambda: bs.select_one(css['Students']).text.strip().split('\n')[0])
 
             self.site_dict[catg]['courses'][course_title]['Price'] = self.__tryExcept(
-                query=lambda: bs.select_one(css['Price']).text.split(' ')[0].replace(',',''))
-            if self.site_dict[catg]['courses'][course_title]['Price'] == None:
-                if 'رایگان' in self.site_dict[catg]['courses'][course_title]['title'] :
-                    self.site_dict[catg]['courses'][course_title]['Price'] = '0'
-            if self.site_dict[catg]['courses'][course_title]['Price']:
-                self.site_dict[catg]['courses'][course_title]['Price'] = unidecode(self.site_dict[catg]['courses'][course_title]['Price'])
-            print(self.site_dict[catg]['courses'][course_title]['Price'])
+                query=lambda: bs.select_one(css['Price']).text.strip())
 
             self.site_dict[catg]['courses'][course_title]['Discount'] = self.__tryExcept(
                 query=lambda: bs.select_one(css['Discount']))
 
             self.site_dict[catg]['courses'][course_title]['Img Url'] = self.__tryExcept(
                 query=lambda: bs.select_one(css['Img Url'])['poster'])
-            if self.site_dict[catg]['courses'][course_title]['Img Url'] == None:
-                self.site_dict[catg]['courses'][course_title]['Img Url'] = self.__tryExcept(
-                query=lambda: bs.select_one(css['Img Url two'])['src'])
 
             self.site_dict[catg]['courses'][course_title]['Demo Url'] = self.__tryExcept(
                 query=lambda: bs.select_one(css['Demo Url']))
@@ -148,7 +136,7 @@ class Website:
                 query=lambda: bs.select(css['Language']))
             for tr in mylist:
                 if tr.select_one('th').text == 'حجم دانلود':
-                    td = tr.select_one('td').text.strip().split('\n')[0]
+                    td = tr.select_one('td').text.strip().replace(' ', '')
             self.site_dict[catg]['courses'][course_title]['Size'] = td
 
             self.site_dict[catg]['courses'][course_title]['Website Url'] = 'https://www.faradars.com'
@@ -163,6 +151,7 @@ class Website:
                     query=lambda: bs.select_one(css['Status']).text.split(':')[1])
             else:
                 self.site_dict[catg]['courses'][course_title]['Status'] = 'در دسترس'
+
 
             self.site_dict[catg]['courses'][course_title]['Description'] = self.__tryExcept(
                 query=lambda: bs.select_one(css['Description']).text.strip())

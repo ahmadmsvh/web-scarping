@@ -8,7 +8,7 @@ file_name = os.path.basename(__file__).split('.')[0]
 
 class Website:
     def __init__(self,url):
-        self.__products_url = url
+        self.__url = url
         self.__pages_url = self.__makePagesUrls(url)
         self.__products_urls = self.__collectProducts(self.__pages_url)
         self.__courses_details = self.__collectCoursesData(self.__products_urls)
@@ -69,9 +69,11 @@ class Website:
             subtitle = None
             size = self.__tryExcept(query = lambda : beautifulsoup.select_one('div.product-meta-info-list').select_one(f'div.meta-info-unit:nth-child({i+3})').text)
             website_url = 'https://danup.ir/'
-            category = self.__tryExcept(query = lambda : beautifulsoup.select_one('nav.woocommerce-breadcrumb').select_one(f':nth-child({i+5})').text)
+            # category = self.__tryExcept(que       ry = lambda : beautifulsoup.select_one('nav.woocommerce-breadcrumb').select_one(f':nth-child({i+5})').text)
+            category = self.__tryExcept(query = lambda : beautifulsoup.select_one('span.posted_in').text)
+            print(category)
             video_quantity = self.__tryExcept(query = lambda : beautifulsoup.select_one('div.product-meta-info-list').select_one(f'div.meta-info-unit:nth-child({i+2})').text)
-            status = 'available'
+            status = 'موجود'
             description = self.__tryExcept(query = lambda : beautifulsoup.select_one('div.wpb_wrapper>h2~p').text)
 
             url.extend([title,teacher,duration,students,price,discounted,
@@ -83,8 +85,8 @@ class Website:
 
     def makeDataframe(self, list):
         df = pd.DataFrame(list, columns=['Course Url', 'Title', 'Teacher', 'Duration', 'Student', 'Price',
-                                         'Discount', 'img Url', 'Demo Url', 'Last Update', 'Subtitle',
-                                         'Language', 'Size', 'Website Url', 'Category', 'Video Quantity',
+                                         'Discount', 'img Url', 'Demo Url', 'Last Update', 'Language',
+                                         'Subtitle', 'Size', 'Website Url', 'Category', 'Video Quantity',
                                          'Status', 'Description'],
                                 index=range(1, len(list) + 1))
         return df

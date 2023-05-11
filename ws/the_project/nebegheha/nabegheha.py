@@ -4,7 +4,7 @@ from selenium.webdriver.common.by import By
 import pandas as pd
 from selenium.webdriver.chrome.options import Options
 
-categories_url = {'programming': 'https://nabegheha.com/shop'}
+categories_url = {'برنامه نویسی': 'https://nabegheha.com/shop'}
 
 courses_info = dict()
 
@@ -54,11 +54,11 @@ for category in courses_info.keys():
             'Students': None,
             'Status' : None,
             'Last Update' : 'div.education__body>ul>li:nth-child(9)>span',
-            'Description' : 'div.content-single__training-package span',
+            'Description' : 'div.content-single__training-package p span',
             'Video Quantity' : 'div.education__body>ul>li:nth-child(7)>span',
             'Img Url' : 'div.education__sidebar img',
             'Demo Url' : 'div.content-single__video source',
-            'Language' : None,
+            'Language' : 'فارسی',
             'Size' : 'div.education__body>ul>li:nth-child(3)>span',
             'Subtitle': None,
             'Category' : category
@@ -78,8 +78,8 @@ for category in courses_info.keys():
         courses_info[category][title]['Img Url'] = tryExcept(query = lambda : driver.find_element(By.CSS_SELECTOR, css['Img Url']).get_attribute('src'))
         courses_info[category][title]['Demo Url'] = tryExcept(query = lambda : driver.find_element(By.CSS_SELECTOR, css['Demo Url']).get_attribute('src'))
         courses_info[category][title]['Last update'] = tryExcept(query = lambda : driver.find_element(By.CSS_SELECTOR, css['Last Update']).text.replace('\n',' '))
+        courses_info[category][title]['Language'] = 'فارسی'
         courses_info[category][title]['Subtitle'] = None
-        courses_info[category][title]['Language'] = None
         courses_info[category][title]['Size'] = tryExcept(query = lambda : driver.find_element(By.CSS_SELECTOR, css['Size']).text)
         courses_info[category][title]['Website Url'] = 'https://nabegheha.com/'
         courses_info[category][title]['Category'] = category
@@ -90,7 +90,7 @@ for category in courses_info.keys():
         driver.close()
 
 df = pd.DataFrame(
-                    courses_info['programming'].values(),
+                    courses_info['برنامه نویسی'].values(),
                     index=range(1, len(courses) + 1))
 
 # df = df.transpose()
